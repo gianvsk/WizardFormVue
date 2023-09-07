@@ -5,8 +5,8 @@ import Button from '../components/atoms/Button.vue';
 </script>
 
 <template>
-    <div class="w-screen h-screen bg-white px-36 py-20 flex flex-col items-center justify-start gap-30px">
-        <Button class="self-start" />
+    <div class="w-screen h-screen bg-white px-36 py-[74px] flex flex-col items-center justify-start gap-30px">
+        <Button class="self-start" :login="true"/>
         <div class="flex flex-col justify-start items-center gap-20">
             <Header 
                 :title="'Welcome to our Educational Website'" 

@@ -1,23 +1,21 @@
 <script setup lang="ts">
-import Link from '../components/atoms/Link.vue';
-import Header from '../components/atoms/header.vue';
 import Form from '../form/Form.vue';
+import LinkHeaderWrapper from '../components/organisms/LinkHeaderWrapper.vue'
+import {ref} from 'vue'
+import Button from '../components/atoms/Button.vue';
+
+const showPage = ref(true)
+
+const changeShowPage = (value) => {
+    console.log(value)
+    showPage.value = value
+}
 
 </script>
 
 <template>
-    <div class="w-screen h-screen flex bg-white px-134px py-86px gap-20">
-        <div class="flex flex-col w-55% gap-20 ">
-            <Link to="/homepage/tutor" :student="true"/>
-            <div class="flex flex-col gap-8">
-                <Header 
-                    :title="'Welcome to our Educational Website'"
-                    :text1="'By signing up, you will gain access to a wealth of resources, including engaging video lectures, interactive quizzes, and personalised feedback from expert instructors.'"
-                    :text-center="false" 
-                    />
-                <img src="/images/person3.png" class="h-100 w-100"/>
-            </div>
-        </div>
-        <Form/>
+    <div :class="['w-screen h-screen flex bg-white px-134px py-13', showPage ? 'gap-20' : '']">
+        <LinkHeaderWrapper v-show="showPage" :student="true"/>
+        <Form @page-visibility="changeShowPage"/>
     </div>
 </template>

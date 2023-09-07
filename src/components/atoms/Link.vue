@@ -2,7 +2,7 @@
 
     type LinkProps = {
         to: string
-        student?: boolean
+        student: boolean
     }
 
     const {to} = defineProps<LinkProps>()
