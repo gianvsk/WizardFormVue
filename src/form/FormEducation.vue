@@ -1,30 +1,43 @@
 <script setup lang="ts">
 import InputTextLabel from '../components/atoms/InputTextLabel.vue';
-import HeaderForm from '../components/atoms/HeaderForm.vue';
-import Stepbar from '../components/molecules/Stepbar.vue';
+import FormButton from '../components/atoms/FormButton.vue';
+import ButtonsContainer from '../components/molecules/ButtonsContainer.vue'
+import {inject} from 'vue'
+import {checkValidInput} from '../utils/utils'
+const educationData = inject('educationData')
+const experienceData = inject('experienceData')
 
-type FormChildProps = {
-    actualStep: string
-    setStep: Function
+const inputs : string[] = inject<string[]>('inputsEducation')!
+
+const emitter = defineEmits<{
+    pageVisibility: []
+}>()
+
+const sendStepWithVisibility = () => {
+    checkValidInput(inputs) ? emitter('pageVisibility') : false
 }
 
-const { actualStep, setStep } = defineProps<FormChildProps>()
+const getEducationData = () => {
+    console.log(educationData)
+}
+
+const getExperienceData = () => {
+    console.log(experienceData)
+}
 
 </script>
 
 <template>
-    <section v-show="actualStep === 'contact-education'"
-        class="flex flex-col w-460 bg-white py-[37px] px-[43px] rounded-20px border border-border-grey gap-10">
+    <section class="flex flex-col gap-10 items-start"
+        >
         <FormKit type="group" id="contact-education" :classes="{
             form: 'flex flex-col gap-10',
         }">
-            <div class="form-upload flex flex-col items-start gap-10">
+            <div class="form-upload w-full flex flex-col items-start gap-10">
 
-                <HeaderForm title="Experience and Education"
-                    text="Kindly provide us with information from your school and work experience." />
-                <Stepbar :step=2 />
                 <h5 class="font-inter font-normal text-base text-shadow-grey">Please upload your CV</h5>
                 <FormKit 
+                    :id="inputs[0]"
                     label="Upload"
                     type="file" 
                     accept=".pdf,.doc,.docx,.xml,.md,.csv" 
@@ -45,39 +58,46 @@ const { actualStep, setStep } = defineProps<FormChildProps>()
 
             </div>
 
-            <div class="form-education flex flex-col items-start gap-6">
-                <span class="font-inter font-normal text-shadow-grey">Education</span>
-                <InputTextLabel placeholder="Name of Institution" />
-                <InputTextLabel placeholder="Degree graduated with" />
-                <InputTextLabel type="select" label="Year of graduation" placeholder="Select"
-                    :options="['Ciao', 'Come', 'Stai']" />
-
-
+            <div class="w-full flex flex-col gap-6 items-start">
+                <FormKit v-model="educationData" type="group" class="form-education w-full flex flex-col items-start gap-6">
+                    <span class="font-inter font-normal text-shadow-grey">Education</span>
+                    <InputTextLabel :id="inputs[1]" label="Name of Institution" placeholder="Name of Institution" :hidden-label="true"/>
+                    <InputTextLabel :id="inputs[2]" label="Degree" placeholder="Degree graduated with" :hidden-label="true" />
+                    <InputTextLabel :id="inputs[3]" type="select" label="Year of graduation" placeholder="Select"
+                        :options="['Ciao', 'Come', 'Stai']" />
+                    <ButtonsContainer></ButtonsContainer>
+                </FormKit>
             </div>
 
-            <div class="flex flex-col items-start gap-6">
+            <div class="w-full flex flex-col gap-6 items-start">
+            <FormKit type="group" v-model="experienceData" class="w-full flex flex-col items-start gap-6">
                 <span class="font-inter font-normal text-shadow-grey">Experience</span>
-                <InputTextLabel placeholder="Name of Institution" />
-                <FormKit type="date" :classes="{
+                <InputTextLabel 
+                    :id="inputs[4]"
+                    label="Name of Institution" 
+                    placeholder="Name of Institution" 
+                    :hidden-label="true" 
+                    />
+                <FormKit :id="inputs[5]" type="date" :classes="{
                     outer: 'w-full',
                     input: 'text-black ',
+                    label: 'hidden'
                 }" >
                 <template #suffix-icon>
                     Ciao
                 </template>
                 </FormKit>
-                <FormKit type="date" :classes="{
+                <FormKit :id="inputs[6]" type="date" :classes="{
                     outer: 'w-full',
                     input: 'text-black color-scheme:light',
                     suffixIcon: 'text-black'
                 }" />
-                <InputTextLabel placeholder="Position held" />
-            </div>
+                <InputTextLabel :id="inputs[7]" label="Position held" placeholder="Position held" :hidden-label="true"/>
+                <ButtonsContainer :showData="getEducationData"></ButtonsContainer>
+            </FormKit>
+        </div>
 
-            <FormKit type="button" class="next" @click="setStep(3)"
-                v-text="actualStep === 'contact-info' ? 'Sign up' : 'Proceed'" :classes="{
-                    input: 'w-full justify-center p-4 rounded-xl font-inter font-normal text-xl text-white $remove:px-6 $remove:py-3',
-                }" />
+            <FormButton @click="sendStepWithVisibility()"/>
         </FormKit>
     </section>
-</template>
+</template>../utils/utils.ts

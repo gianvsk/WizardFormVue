@@ -4,18 +4,27 @@ import FormInfo from './FormInfo.vue';
 import FormEducation from './FormEducation.vue';
 import FormSkills from './FormSkills.vue';
 import FormBankDetails from './FormBankDetails.vue';
-import Button from '../components/atoms/Button.vue';
+import FormSubmit from '../components/atoms/FormSubmit.vue';
 
-const step = ref(1)
-const actualStep = ref('contact-info')
+type FormProps = {
+    actualStep: string
+}
+
+const { actualStep } = defineProps<FormProps>()
+
 const person = ref()
 
 const emitter = defineEmits<{
-    pageVisibility: [value: boolean]
+    pageVisibility: []
+    checkSubmit: []
 }>()
 
 const sendVisibility = () => {
-    emitter('pageVisibility', actualStep.value === 'contact-info' ? true : false)
+    emitter('pageVisibility')
+}
+
+const checkSubmit = () => {
+    emitter('checkSubmit')
 }
 
 const sendData = (data) => {
@@ -23,57 +32,16 @@ const sendData = (data) => {
     console.log(person.value)
 }
 
-const setStep = (int: number) => {
-    step.value = int
-    console.log(person.value)
-    switch (int) {
-        case 1:
-            actualStep.value = 'contact-info'
-            break
-        case 2:
-            actualStep.value = 'contact-education'
-            break
-        case 3:
-            actualStep.value = 'contact-skills'
-            break
-        case 4:
-            actualStep.value = 'contact-bank-details'
-            break
-    }
-}
-
-const goBack = () => {
-    step.value-=1
-    switch (step.value) {
-        case 1:
-            actualStep.value = 'contact-info'
-            console.log(actualStep.value)
-            break
-        case 2:
-            actualStep.value = 'contact-education'
-            break
-        case 3:
-            actualStep.value = 'contact-skills'
-            break
-        case 4:
-            actualStep.value = 'contact-bank-details'
-            break
-    }
-    sendVisibility()
-}
-
 </script>
 
 <template>
-    <Button v-show="step > 1 ? true : false" :login="false" @click="goBack"/>
-    <FormKit type="form" :classes="{form: step > 1 ? 'mx-auto' : '' }" #default="{ value, state: { valid } }" :actions="false" @submit="sendData">
-        <div class="form-body">
-            <FormInfo :actual-step="actualStep" :set-step="setStep" @page-visibility="sendVisibility"/>
-            <FormEducation :actual-step="actualStep" :set-step="setStep"/>
-            <FormSkills :actual-step="actualStep" :set-step="setStep"/>
-            <FormBankDetails :current-step="actualStep" :set-step="setStep"/>
+    <FormKit type="form" class="w-full flex flex-col lg:gap-10"  #default="{ value, state: { valid } }" :actions="false" @submit="sendData">
+        <div>
+            <FormInfo v-show="actualStep === 'contact-info'" :actual-step="actualStep" :is-submit="false" @page-visibility="sendVisibility"/>
+            <FormEducation v-show="actualStep === 'contact-education'" :actual-step="actualStep" @page-visibility="sendVisibility"/>
+            <FormSkills v-show="actualStep === 'contact-skills'" :actual-step="actualStep" @page-visibility="sendVisibility"/>
+            <FormBankDetails v-show="actualStep === 'contact-details'" :current-step="actualStep" @check-submit=""/>
         </div>
-        <FormKit v-show="actualStep === 'contact-bank-details'" type="submit" label="Submit Application" 
-            :disabled="!valid" />
+            <FormSubmit v-show="actualStep === 'contact-bank-details'" label="Finish and Submit"/>
     </FormKit>
 </template>

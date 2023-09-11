@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 type FormStepbarProps = {
-    step: 1 | 2 | 3 | 4
+    step: number
 }
 
 const { step } = defineProps<FormStepbarProps>()

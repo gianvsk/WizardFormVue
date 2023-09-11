@@ -5,16 +5,16 @@ import Button from '../components/atoms/Button.vue';
 </script>
 
 <template>
-    <div class="w-screen h-screen bg-white px-36 py-[74px] flex flex-col items-center justify-start gap-30px">
+    <div class="w-full flex flex-col items-center justify-start pb-10 p-3 bg-white lg:gap-30px lg:w-screen lg:px-36 lg:py-[74px] ">
         <Button class="self-start" :login="true"/>
-        <div class="flex flex-col justify-start items-center gap-20">
+        <div class="flex flex-col justify-start my-5 items-center gap-20 lg:m-0">
             <Header 
                 :title="'Welcome to our Educational Website'" 
                 :text1="'Select how you want to proceed with the platform. '"
                 :text2="'Choose between Tutor and Student.'"
                 :text-center="true"
                 />
-            <div class="flex justify-between gap-20">
+            <div class="flex flex-col lg:flex-row justify-between gap-20">
                 <Card 
                     :image="'/images/person1.png'" 
                     :text="'Sign up as a Student'"

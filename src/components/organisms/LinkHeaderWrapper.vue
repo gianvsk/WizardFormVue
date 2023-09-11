@@ -11,9 +11,9 @@ const {student} = defineProps<LinkHeaderWrapperProps>()
 </script>
 
 <template>
-    <div class="flex flex-col justify-center w-55% gap-20 ">
+    <div class="w-full flex flex-col justify-center lg:w-55% gap-5 lg:items-start lg:gap-20 ">
         <Link :to="student ? '/signup/tutor' : '/signup/student'" :student="student" />
-        <div class="flex flex-col gap-8">
+        <div class="flex flex-col items-center gap-6 lg:gap-8 xl:items-start">
             <Header 
                 :title="'Welcome to our Educational Website'"
                 :text1="'By signing up, you will gain access to a wealth of resources, including engaging video lectures, interactive quizzes, and personalised feedback from expert instructors.'"
