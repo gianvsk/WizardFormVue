@@ -10,7 +10,7 @@ const { step } = defineProps<FormStepbarProps>()
 
 <template>
     <div class="w-full flex flex-col justify-between items-end gap-4">
-        <h5 class="font-inter font-normal text-primary text-sm">Step {{ step.toString() }} <span class=" font-inter font-normal text-label-grey text-sm ">of 4</span></h5>
+        <h5 class="font-inter font-medium text-primary text-sm">Step {{ step.toString() }} <span class=" font-inter font-normal text-label-grey text-sm ">of 4</span></h5>
         <div class=" flex relative w-full">
             <div :class="['relative top-0 h-2.5 bg-primary rounded-2.5xl z-10',
                 step === 1 ? 'w-1/4' :

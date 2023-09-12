@@ -1,11 +1,5 @@
 <script setup lang="ts">
 
-
-
-const setCheckbox = (value) => {
-
-}
-
 </script>
 
 <template>

@@ -6,7 +6,8 @@ import IconText from '../components/atoms/IconText.vue';
 import TextLink from '../components/atoms/TextLink.vue';
 import FormButton from '../components/atoms/FormButton.vue';
 import {checkValidInput} from '../utils/utils'
-import {inject} from 'vue'
+import {ref,inject} from 'vue'
+import InputPassword from '../components/atoms/InputPassword.vue';
 
 type FormChildProps = {
     isSubmit: boolean
@@ -25,11 +26,6 @@ const sendStepWithVisibility = () => {
     checkValidInput(inputs) ? emitter('pageVisibility') : false
 }
 
-const handleIconClick = (node, e) => {
-    node.props.suffixIcon = node.props.suffixIcon === 'eye' ? 'eyeClosed' : 'eye'
-    node.props.type = node.props.type === 'password' ? 'text' : 'password'
-}
-
 const sendData = (e) => {
     emitter('sendUserDetails', e)
 }
@@ -37,28 +33,31 @@ const sendData = (e) => {
 </script>
 
 <template>
-    <section class="flex flex-col gap-10 items-start">
+    <section class="w-full flex flex-col gap-10 items-start">
 
         <FormKit 
-            :type="isSubmit ? 'form' : 'group'" 
-            id="contact-info" 
-            @submit="!isSubmit ? sendData : sendStepWithVisibility()"
+            :type="isSubmit ? 'form' : 'group'"
+            name="info" 
+            id="contact-info"
+            @submit="sendData"
             :classes="{
-            form: 'flex flex-col gap-10',
+            form: 'w-full flex flex-col gap-10',
         }">
 
             <div class="w-full flex flex-col gap-6">
                 <InputTextLabel 
                     :id="inputs[0]"
+                    name="fullname"
                     label="Fullname" 
                     placeholder="Fullname" 
                     validation="required|length:3|matches:/[a-zA-Z]/"
                     :hidden-label="true" />
                 <InputTextLabel
                     :id="inputs[1]"
+                    name="email"
                     label="Email" 
                     placeholder="Your Email Address"
-                    validation="required|*email|ends_with:.com,.org" 
+                    validation="required|email|ends_with:.com,.org" 
                     :hidden-label="true" />
 
                 <div class="flex flex-col gap-2 items-start">
@@ -66,6 +65,7 @@ const sendData = (e) => {
                     <div class="flex gap-1">
                         <FormKit 
                             :id="inputs[2]"
+                            name="nationality"
                             type="select" 
                             :classes="{
                             selectIcon: 'text-black',
@@ -73,7 +73,7 @@ const sendData = (e) => {
                             option: 'text-sm',
                             wrapper: 'w-full',
                             suffixIcon: 'w-full flex justify-around px-2 $remove:pr-8 $remove:pl-3',
-                            inner: 'px-1',
+                            inner: 'px-1 rounded-lg',
                             input: 'pr-4 pl-2 $remove:pl-3 $remove:pr-8'
                             }" 
                             :options="[{ label: '+234', prefixIcon: '/images/flag.png' },
@@ -85,39 +85,28 @@ const sendData = (e) => {
                         </FormKit>
                         <InputTextLabel
                             :id="inputs[3]"
+                            name="phone"
                             label="Phone Number" 
                             placeholder="Number"
-                            validation="required|starts_with:+39|length:13,13" 
-                            value="+39 " 
+                            validation="required|number|length:10,10" 
                             :hidden-label="true" />
                     </div>
                 </div>
 
-                <FormKit 
-                    :id="inputs[4]"
-                    label="Password"
-                    type="password"
-                    validation="required" 
-                    prefix-icon="password" 
-                    suffix-icon="eyeClosed"
-                    @suffix-icon-click="handleIconClick" :classes="{
-                        wrapper: 'flex flex-col items-start gap-2',
-                        outer: '$reset',
-                        inner: ' w-full rounded-lg',
-                        input: 'px-4',
-                        label: '$reset font-inter font-normal text-shadow-grey text-sm text-left',
-                        prefixIcon: 'text-black border-r-0 bg-white my-auto $remove:to-gray-200',
-                        suffixIcon: 'text-black w-auto'
-                    }" />
+                <InputPassword name="password" :id="inputs[4]"/>
             </div>
 
-            <Checkbox :id="inputs[5]"/>
+            <Checkbox name="terms-and-condition" :id="inputs[5]"/>
 
             <FormButton 
                 v-text="'Sign up'" 
                 :type="isSubmit ? 'submit' : 'button'" 
                 @click="isSubmit ? sendData : sendStepWithVisibility()"
                 />
+
+            <template #actions>
+
+            </template>
         </FormKit>
 
         <FormSeparator text="Or with" />

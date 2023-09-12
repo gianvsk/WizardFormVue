@@ -11,33 +11,26 @@ const inputsInfo : string[] = ['fullname', 'email', 'nationality','phone', 'pass
 provide('inputsInfo', inputsInfo)
 
 const actualStep = ref<string>('contact-info')
-const person = ref()
 
 const showHeroSection = computed(() => {
     return actualStep.value === 'contact-info' ? true : false
 })
 
 const sendData = (data) => {
-    person.value = data
-    console.log(person.value)
+    console.log(data)
 }
 
 </script>
 
 <template>
-    <div :class="['w-screen flex flex-col p-8 pb-10 items-center justify-between lg:flex-row lg:items-start bg-white lg:px-24 lg:py-9 xl:px-134px xl:py-13',
+    <div :class="['w-screen flex flex-col p-8 pb-10 items-center justify-between lg:flex-row lg:items-start bg-white lg:px-24 lg:py-9 xl:px-134px xl:py-13 xl:h-screen 2xl:justify-around 2xl:items-center',
         actualStep === 'contact-info' ? 'xl:items-start' : 'xl:items-start',
         actualStep === 'contact-skills' || actualStep === 'contact-bank-details' ? 'h-screen' : '']">
         <LinkHeaderWrapper v-show="showHeroSection" :student="true" />
 
-        <FormKit 
-            type="form" 
-            :classes="{ form: 'w-full sm:w-460 lg:w-96 xl:w-460', button: 'hidden'}" 
-            #default="{ value, state: { valid } }"
-            @submit.prevent="sendData"
-            :actions="false">
+        <div class="'w-full sm:w-460 xl:w-460'">
 
-            <div class="form-body flex flex-col my-10 p-5 gap-5 rounded-20px bg-white border border-border-grey lg:w-460 lg:m-0 lg:py-[37px] lg:px-[43px]  lg:gap-10">
+            <div class="flex flex-col mt-10 mb-40 p-5 gap-5 rounded-20px bg-white border border-border-grey lg:w-full lg:m-0 lg:py-[37px] lg:px-[43px] lg:gap-10">
                 <HeaderFormSteps :step=1>
                     <div class="flex flex-col text-left gap-4">
                         <h3 
@@ -48,6 +41,6 @@ const sendData = (data) => {
                 </HeaderFormSteps>
                 <FormInfo :is-submit="true" @send-user-details="sendData"/>
             </div>
-        </FormKit>
+        </div>
     </div>
 </template>

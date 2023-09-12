@@ -35,7 +35,7 @@ const sendData = (data) => {
 </script>
 
 <template>
-    <FormKit type="form" class="w-full flex flex-col lg:gap-10"  #default="{ value, state: { valid } }" :actions="false" @submit="sendData">
+    <FormKit type="form" name="form" class="w-full flex flex-col lg:gap-10" #default="{ value, state: { valid } }" :actions="false" @submit="sendData">
         <div>
             <FormInfo v-show="actualStep === 'contact-info'" :actual-step="actualStep" :is-submit="false" @page-visibility="sendVisibility"/>
             <FormEducation v-show="actualStep === 'contact-education'" :actual-step="actualStep" @page-visibility="sendVisibility"/>

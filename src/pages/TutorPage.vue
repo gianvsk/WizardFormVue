@@ -9,18 +9,18 @@ import { getNode } from '@formkit/core'
 
 const actualStep = ref<string>('contact-info')
 const step = ref<number>(1)
-const educationData = ref('ok')
-const experienceData = ref('ok')
 const inputsInfo : string[] = ['fullname', 'email', 'nationality','phone', 'password', 'checkbox']
 const inputsEducation: string[] = ['cv', 'education-istitution', 'degree', 'graduation-year', 
                                     'experience-istitution', 'start-date', 'end-date', 'position']
 const inputsPayment: string[] = ['fullname-card-owner', 'bank-name', 'account-number']
+const educationInstitution = ref(1)
+const experienceInstitution = ref(1)
 
-provide('educationData', educationData)
-provide('experienceData', experienceData)
 provide('inputsInfo', inputsInfo)
 provide('inputsEducation', inputsEducation)
 provide('inputsPayment', inputsPayment)
+provide('educationInstitution', educationInstitution)
+provide('experienceInstitution', experienceInstitution)
 
 provide('checkValidInput', checkValidInput)
 
@@ -68,8 +68,9 @@ const getTitleFormHeader = computed(() => {
 </script>
 
 <template>
-    <div :class="['w-screen flex flex-col p-8 pb-10 items-center justify-between lg:flex-row lg:items-start bg-white lg:px-24 lg:py-9 xl:px-134px xl:py-13 ',
-        actualStep !== 'contact-info' && actualStep !== 'contact-education' ? 'lg:h-screen' : '']">
+    <div :class="['w-screen h-full flex flex-col p-8 pb-10 items-center justify-between bg-white md:h-screen lg:items-center lg:flex-row lg:px-24 lg:py-9 xl:items-start xl:px-134px xl:py-13 2xl:justify-around 2xl:items-center',
+        actualStep !== 'contact-info' && actualStep !== 'contact-education' ? 'lg:h-screen' : '',
+        actualStep === 'contact-education' ? 'lg:h-full xl:h-full' : '']">
 
         <LinkHeaderWrapper v-show="showHeroSection" :student="false" />
         <Button v-show="step > 1 ? true : false" :login="false" @click="previousFormPage" />

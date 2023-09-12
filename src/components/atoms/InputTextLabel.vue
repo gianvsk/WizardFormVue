@@ -11,6 +11,7 @@
 <template>
     <FormKit
         :validation="'required'"
+        validation-visibility='blur'
         :classes="{
             wrapper: 'w-full flex flex-col justify-start gap-2',
             outer: 'w-full $remove:mb-4',
